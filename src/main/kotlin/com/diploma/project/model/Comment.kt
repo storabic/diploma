@@ -1,13 +1,18 @@
 package com.diploma.project.model
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import java.util.*
+import javax.persistence.*
 
 @Entity
-class Comment {
+class Comment (
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    var id: Long = 0L
-}
+    var id: Long = 0L,
+    var text: String? = null,
+    @OneToOne
+    var path: Path? = null,
+    @OneToOne
+    var author: Account? = null,
+    var dateCreated: Date = Date(),
+    val thumbsUp: Long = 0
+)
