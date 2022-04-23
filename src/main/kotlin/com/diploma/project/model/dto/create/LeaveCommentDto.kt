@@ -1,4 +1,4 @@
-package com.diploma.project.model.dto
+package com.diploma.project.model.dto.create
 
 data class LeaveCommentDto(
     var userId: Long,

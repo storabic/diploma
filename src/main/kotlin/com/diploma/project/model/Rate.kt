@@ -8,9 +8,10 @@ class Rate(
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     var id: Long? = 0L,
     @ManyToOne
-    var user: Account? = null,
+    var account: Account? = null,
     @ManyToOne
     var comment: Comment? = null,
     @ManyToOne
-    var Path: Path? = null
+    var path: Path? = null,
+    var rate: Double? = null
 )

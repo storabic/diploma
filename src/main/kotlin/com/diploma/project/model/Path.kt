@@ -11,20 +11,26 @@ class Path(
 
     var name: String? = null,
 
+    var description: String? = null,
+
+    @ManyToOne
+    var author: Account? = null,
+
+    /**
+     * First route [PathPoint.latitude]
+     */
+    var beginLatitude: Double? = null,
+
+    /**
+     * First route [PathPoint.longitude]
+     */
+    var beginLongitude: Double? = null,
+
     /**
      * Current average rating, when new user rate comes onto us, we change rate to
      * ([currentRating] * [ratedCount] + newUserRate) / (++[ratedCount])
      */
     var currentRating: Double = 0.0,
 
-    var ratedCount: Long = 0L,
-
-    @BatchSize(size = 25)
-    @OneToMany(
-        fetch = FetchType.LAZY,
-        cascade = [CascadeType.ALL],
-        orphanRemoval = true,
-        mappedBy = "path"
-    )
-    var points: MutableList<PathPoint>? = mutableListOf()
+    var ratedCount: Long = 0L
 )
