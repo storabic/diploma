@@ -6,3 +6,6 @@
 
 # Spring JPA схема данных
 ![Spring JPA diagram.png](Spring_JPA_entities_diagram.png)
+
+# API methods
+![api_diagram.png](api_diagram.png)
