@@ -10,5 +10,5 @@ interface CommentService {
     fun leaveComment(@RequestBody commentDto: LeaveCommentDto): CommentDto
     fun like(userId: Long, commentId: Long): Boolean
     fun unlike(userId: Long, commentId: Long): Boolean
-    fun getCommentsByPath(pathId: Long, page: Pageable): Page<CommentDto>
+    fun getCommentsByPath(pathId: Long, userId: Long, page: Pageable): Page<CommentDto>
 }

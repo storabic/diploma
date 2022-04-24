@@ -11,12 +11,7 @@ class CreateAccountDto(
     @field:Pattern(regexp = "^.*[0-9]{10}$", message = "Invalid phone")
     val phone: String,
     @field:NotBlank
-    val firstName: String,
+    val name: String,
     @field:NotBlank
-    val lastName: String,
-    val patronymic: String?,
-    @field:NotEmpty
-    val role: String,
-    // TODO made @NotBlank when UI will send us passwords
     val password: String?
 )

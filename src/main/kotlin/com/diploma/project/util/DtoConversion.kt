@@ -9,20 +9,23 @@ import com.diploma.project.model.dto.get.CommentDto
 import com.diploma.project.model.dto.get.PathDto
 import com.diploma.project.model.dto.get.PathPointDto
 
-fun Comment.toDto(): CommentDto {
+fun Comment.toDto(alreadyLiked: Boolean): CommentDto {
     return CommentDto(
         this.id,
         this.text,
         this.path?.id,
         this.author?.toDto(),
         this.dateCreated,
-        this.thumbsUp
+        this.thumbsUp,
+        alreadyLiked
     )
 }
 
-fun Path.toDto(): PathDto {
+fun Path.toDto(userRate: Double?): PathDto {
     return PathDto(
         this.id,
+        this.author?.id,
+        userRate,
         this.description,
         this.name,
         this.currentRating

@@ -31,8 +31,10 @@ class PathServiceImpl(
         return pathDao.findById(pathId).orElseThrow { PathNotFoundException(pathId) }
     }
 
-    override fun getNearPaths(latitude: Double, longitude: Double, pageable: Pageable): Page<PathDto> {
-            return pathDao.getNearPaths(latitude, longitude, pageable).map { it.toDto() }
+    override fun getNearPaths(userId: Long, latitude: Double, longitude: Double, pageable: Pageable): Page<PathDto> {
+        val user = accountService.getUser(userId)
+        return pathDao.getNearPaths(latitude, longitude, pageable)
+            .map { it.toDto(rateService.getByPathAndAccount(it, user)?.rate) }
     }
 
     override fun getPathPoints(pathId: Long): List<PathPointDto> {
@@ -51,7 +53,7 @@ class PathServiceImpl(
         )
         val pathFromDb = pathDao.save(pathToCreate)
         createPathPoints(createPathDto.points, pathFromDb)
-        return pathFromDb.toDto()
+        return pathFromDb.toDto(null)
     }
 
     override fun changePath(changePathDto: ChangePathDto) {
@@ -71,7 +73,7 @@ class PathServiceImpl(
 
     override fun getPathsByUser(userId: Long, pageable: Pageable): Page<PathDto> {
         val user = accountService.getUser(userId)
-        return pathDao.getAllByAuthor(user, pageable).map { it.toDto() }
+        return pathDao.getAllByAuthor(user, pageable).map { it.toDto(rateService.getByPathAndAccount(it, user)?.rate) }
     }
 
     @Transactional
@@ -103,7 +105,7 @@ class PathServiceImpl(
             )
         }
         pathPoints[0].first = true
-        var nextPathPoint:PathPoint? = null
+        var nextPathPoint: PathPoint? = null
         for (i in pathPoints.size - 1 downTo 0) {
             pathPoints[i].nextPathPoint = nextPathPoint
             nextPathPoint = pathPointDao.save(pathPoints[i])

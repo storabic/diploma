@@ -7,7 +7,6 @@ import com.diploma.project.model.dto.update.ChangePathDto
 import com.diploma.project.service.PathService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -16,8 +15,8 @@ class PathController(
     var pathService: PathService
 ) {
     @GetMapping("near")
-    fun getNearPaths(@RequestParam latitude: Double, @RequestParam longitude: Double, pageable: Pageable): Page<PathDto> {
-        return pathService.getNearPaths(latitude, longitude, pageable)
+    fun getNearPaths(@RequestParam userId: Long, @RequestParam latitude: Double, @RequestParam longitude: Double, pageable: Pageable): Page<PathDto> {
+        return pathService.getNearPaths(userId, latitude, longitude, pageable)
     }
 
     @GetMapping("by-user")

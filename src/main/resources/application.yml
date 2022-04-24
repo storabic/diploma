@@ -8,12 +8,12 @@ spring:
     defer-datasource-initialization: true
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:h2:file:./diplomadb
+    url: jdbc:h2:file:./db/diplomadb
 server:
   error:
     include-stacktrace: always

@@ -5,7 +5,6 @@ import com.diploma.project.model.dto.create.LeaveCommentDto
 import com.diploma.project.service.CommentService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -28,8 +27,8 @@ class CommentController(
         return commentService.unlike(userId, commentId)
     }
 
-    @PostMapping("by-path")
-    fun getCommentsByPath(@RequestParam pathId: Long, page: Pageable): Page<CommentDto> {
-        return commentService.getCommentsByPath(pathId, page)
+    @GetMapping("by-path")
+    fun getCommentsByPath(@RequestParam pathId: Long, @RequestParam userId: Long, page: Pageable): Page<CommentDto> {
+        return commentService.getCommentsByPath(pathId, userId, page)
     }
 }

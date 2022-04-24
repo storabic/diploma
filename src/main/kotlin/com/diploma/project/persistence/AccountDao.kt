@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface AccountDao : JpaRepository<Account, Long> {
+    fun findByPhoneOrName(phone: String?, name: String?) : Account?
 }

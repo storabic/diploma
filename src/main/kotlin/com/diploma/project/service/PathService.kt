@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable
 
 interface PathService {
     fun getPath(pathId: Long) : Path
-    fun getNearPaths(latitude: Double, longitude: Double, pageable: Pageable): Page<PathDto>
+    fun getNearPaths(userId: Long, latitude: Double, longitude: Double, pageable: Pageable): Page<PathDto>
     fun getPathPoints(pathId: Long): List<PathPointDto>
     fun createPath(createPathDto: CreatePathDto): PathDto
     fun changePath(changePathDto: ChangePathDto)

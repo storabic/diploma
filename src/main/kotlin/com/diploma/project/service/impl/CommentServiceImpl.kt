@@ -39,7 +39,7 @@ class CommentServiceImpl(
             author = author
         )
         commentDao.save(comment)
-        return comment.toDto()
+        return comment.toDto(false)
     }
 
     @Transactional
@@ -68,8 +68,11 @@ class CommentServiceImpl(
         return true
     }
 
-    override fun getCommentsByPath(pathId: Long, page: Pageable): Page<CommentDto> {
+    override fun getCommentsByPath(pathId: Long, userId: Long, page: Pageable): Page<CommentDto> {
+        val user = accountService.getUser(userId)
         val path = pathService.getPath(pathId)
-        return commentDao.findByPath(path, page).map { it.toDto() }
+        return commentDao.findByPath(path, page).map {
+            it.toDto(rateService.getByCommentAndAccount(it, user) != null)
+        }
     }
 }

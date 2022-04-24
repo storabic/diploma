@@ -9,5 +9,6 @@ class CommentDto(
     var pathId: Long?,
     var author: UserDto?,
     var dateCreated: Date?,
-    val thumbsUp: Long?
+    val thumbsUp: Long?,
+    val likedAlready: Boolean?
 ) : Serializable
