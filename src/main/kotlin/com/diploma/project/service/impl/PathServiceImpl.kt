@@ -1,6 +1,7 @@
 package com.diploma.project.service.impl
 
 import com.diploma.project.exception.ForbiddenActionException
+import com.diploma.project.exception.NotEnoughPathPointsException
 import com.diploma.project.exception.PathNotFoundException
 import com.diploma.project.model.Path
 import com.diploma.project.model.PathPoint
@@ -43,6 +44,9 @@ class PathServiceImpl(
     }
 
     override fun createPath(createPathDto: CreatePathDto): PathDto {
+        if (createPathDto.points.size <= 1) {
+            throw NotEnoughPathPointsException(createPathDto.name)
+        }
         val author = accountService.getUser(createPathDto.authorUserId)
         val pathToCreate = Path(
             author = author,
@@ -57,6 +61,9 @@ class PathServiceImpl(
     }
 
     override fun changePath(changePathDto: ChangePathDto) {
+        if (changePathDto.points.size <= 1) {
+            throw NotEnoughPathPointsException(changePathDto.name)
+        }
         val path = getPath(changePathDto.pathId)
         val user = accountService.getUser(changePathDto.authorUserId)
         if (user != path.author) {
@@ -92,6 +99,11 @@ class PathServiceImpl(
         ++path.ratedCount
         path.currentRating = pathNewRateSum / path.ratedCount
         pathDao.save(path)
+    }
+
+    override fun search(userId: Long, searchString: String, page: Pageable): Page<PathDto> {
+        val user = accountService.getUser(userId)
+        return pathDao.search(searchString, page).map { it.toDto(rateService.getByPathAndAccount(it, user)?.rate) }
     }
 
     private fun createPathPoints(points: List<CreatePathPointDto>, path: Path) {

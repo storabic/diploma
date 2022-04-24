@@ -4,13 +4,13 @@ import com.diploma.project.exception.AccountAlreadyExistsException
 import com.diploma.project.exception.AccountNotFoundException
 import com.diploma.project.model.Account
 import com.diploma.project.model.dto.create.CreateAccountDto
-import com.diploma.project.model.dto.get.AccountDto
 import com.diploma.project.model.dto.get.UserDto
 import com.diploma.project.persistence.AccountDao
 import com.diploma.project.service.AccountService
 import com.diploma.project.util.toDto
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import javax.persistence.EntityNotFoundException
 
 @Service
 class AccountServiceImpl(
@@ -30,5 +30,9 @@ class AccountServiceImpl(
             name = accountDto.name
         )
         return userDao.save(newUser).toDto()
+    }
+
+    override fun searchAccounts(searchString: String, page: Pageable): Page<UserDto> {
+        return userDao.findByNameLike(searchString, page).map { it.toDto() }
     }
 }

@@ -16,4 +16,5 @@ interface PathService {
     fun changePath(changePathDto: ChangePathDto)
     fun getPathsByUser(userId: Long, pageable: Pageable): Page<PathDto>
     fun ratePath(pathId: Long, userId: Long, rate: Double)
+    fun search(userId: Long, searchString: String, page: Pageable): Page<PathDto>
 }

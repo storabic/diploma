@@ -43,4 +43,9 @@ class PathController(
     fun ratePath(@RequestParam pathId: Long, @RequestParam userId: Long, @RequestParam rate: Double) {
         pathService.ratePath(pathId, userId, rate)
     }
+
+    @GetMapping("search")
+    fun searchAccounts(@RequestParam userId: Long, @RequestParam searchString: String, page: Pageable): Page<PathDto> {
+        return pathService.search(userId, searchString, page)
+    }
 }

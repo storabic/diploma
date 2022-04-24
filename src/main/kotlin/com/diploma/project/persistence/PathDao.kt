@@ -26,4 +26,7 @@ interface PathDao : JpaRepository<Path, Long> {
     fun getNearPaths(latitude: Double, longitude: Double, pageable: Pageable): Page<Path>
 
     fun getAllByAuthor(account: Account, pageable: Pageable): Page<Path>
+
+    @Query("select p from Path p where p.name like concat('%',lower(?1),'%') or p.description like concat('%',lower(?1),'%')")
+    fun search(searchString: String, pageable: Pageable): Page<Path>
 }
