@@ -3,6 +3,13 @@ management:
     web:
       exposure:
         include: httptrace
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
 spring:
   jpa:
     defer-datasource-initialization: true

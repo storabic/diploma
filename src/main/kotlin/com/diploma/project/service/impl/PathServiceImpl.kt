@@ -3,6 +3,7 @@ package com.diploma.project.service.impl
 import com.diploma.project.exception.ForbiddenActionException
 import com.diploma.project.exception.NotEnoughPathPointsException
 import com.diploma.project.exception.PathNotFoundException
+import com.diploma.project.exception.WrongCoordinatesException
 import com.diploma.project.model.Path
 import com.diploma.project.model.PathPoint
 import com.diploma.project.model.dto.get.PathDto
@@ -43,6 +44,7 @@ class PathServiceImpl(
         return pathPointDao.getAllByPathSorted(path.id!!).map { it.toDto() }
     }
 
+    @Transactional
     override fun createPath(createPathDto: CreatePathDto): PathDto {
         if (createPathDto.points.size <= 1) {
             throw NotEnoughPathPointsException(createPathDto.name)
@@ -94,6 +96,8 @@ class PathServiceImpl(
             --path.ratedCount
             existedRate.rate = rate
             rateService.update(existedRate)
+        } else {
+            rateService.create(user, null, path, rate)
         }
         pathNewRateSum += rate
         ++path.ratedCount
@@ -106,8 +110,12 @@ class PathServiceImpl(
         return pathDao.search(searchString, page).map { it.toDto(rateService.getByPathAndAccount(it, user)?.rate) }
     }
 
-    private fun createPathPoints(points: List<CreatePathPointDto>, path: Path) {
+    @Transactional
+    fun createPathPoints(points: List<CreatePathPointDto>, path: Path) {
         val pathPoints = points.map {
+            if (it.latitude > 90 || it.latitude < 0 || it.longitude > 90 || it.longitude < 0) {
+                throw WrongCoordinatesException()
+            }
             PathPoint(
                 name = it.name,
                 path = path,

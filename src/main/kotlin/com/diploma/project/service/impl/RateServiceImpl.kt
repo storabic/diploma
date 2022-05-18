@@ -20,12 +20,14 @@ class RateServiceImpl(
         return rateDao.getFirstByCommentAndAccount(comment, account)
     }
 
-    override fun create(account: Account, comment: Comment?, path: Path?) {
-        val rate = Rate(
+    override fun create(account: Account, comment: Comment?, path: Path?, rate: Double?) {
+        val newRate = Rate(
             account = account,
-            comment = comment
+            comment = comment,
+            path = path,
+            rate = rate
         )
-        rateDao.save(rate)
+        rateDao.save(newRate)
     }
 
     override fun update(rate: Rate) {

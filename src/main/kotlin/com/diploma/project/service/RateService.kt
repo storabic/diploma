@@ -8,7 +8,7 @@ import com.diploma.project.model.Rate
 interface RateService {
     fun getRate(rateId: Long): Rate?
     fun getByCommentAndAccount(comment: Comment, account: Account): Rate?
-    fun create(account: Account, comment: Comment?, path: Path?)
+    fun create(account: Account, comment: Comment?, path: Path?, rate: Double?)
     fun update(rate: Rate)
     fun delete(rate: Rate)
     fun getByPathAndAccount(path: Path, user: Account): Rate?

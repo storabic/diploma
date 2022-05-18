@@ -1,9 +1,10 @@
 package com.diploma.project.controller
 
 import com.diploma.project.model.dto.create.CreateAccountDto
+import com.diploma.project.model.dto.get.AccountDto
 import com.diploma.project.model.dto.get.UserDto
 import com.diploma.project.service.AccountService
-import com.diploma.project.util.toDto
+import com.diploma.project.util.toUserDto
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
@@ -15,12 +16,17 @@ class AccountController(
 ) {
     @GetMapping("info")
     fun getAccountInfo(@RequestParam userId: Long): UserDto {
-        return accountService.getUser(userId).toDto()
+        return accountService.getUser(userId).toUserDto()
     }
 
     @PostMapping("register")
     fun register(@RequestParam accountDto: CreateAccountDto): UserDto {
         return accountService.register(accountDto)
+    }
+
+    @PostMapping("login")
+    fun login(@RequestParam username: String, @RequestParam hashedPassword: String): AccountDto {
+        return accountService.login(username, hashedPassword)
     }
 
     @GetMapping("search")

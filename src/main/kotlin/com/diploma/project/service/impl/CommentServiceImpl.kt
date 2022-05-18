@@ -50,7 +50,7 @@ class CommentServiceImpl(
         if (rate != null) {
             throw CommentAlreadyLikedException(account.id, account.name!!, comment.id)
         }
-        rateService.create(account, comment, null)
+        rateService.create(account, comment, null, null)
         ++comment.thumbsUp
         commentDao.save(comment)
         return true

@@ -4,17 +4,14 @@ import com.diploma.project.model.Account
 import com.diploma.project.model.Comment
 import com.diploma.project.model.Path
 import com.diploma.project.model.PathPoint
-import com.diploma.project.model.dto.get.UserDto
-import com.diploma.project.model.dto.get.CommentDto
-import com.diploma.project.model.dto.get.PathDto
-import com.diploma.project.model.dto.get.PathPointDto
+import com.diploma.project.model.dto.get.*
 
 fun Comment.toDto(alreadyLiked: Boolean): CommentDto {
     return CommentDto(
         this.id,
         this.text,
         this.path?.id,
-        this.author?.toDto(),
+        this.author?.toUserDto(),
         this.dateCreated,
         this.thumbsUp,
         alreadyLiked
@@ -43,9 +40,17 @@ fun PathPoint.toDto(): PathPointDto {
     )
 }
 
-fun Account.toDto(): UserDto {
+fun Account.toUserDto(): UserDto {
     return UserDto(
         this.id,
         this.name
+    )
+}
+
+fun Account.toAccountDto(): AccountDto {
+    return AccountDto(
+        this.id,
+        this.name,
+        this.phone
     )
 }
